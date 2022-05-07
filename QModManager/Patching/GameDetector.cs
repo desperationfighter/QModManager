@@ -28,6 +28,7 @@
 
         internal bool IsValidGameRunning => SupportedGameVersions.ContainsKey(CurrentlyRunningGame);
         internal int MinimumBuildVersion => IsValidGameRunning ? SupportedGameVersions[CurrentlyRunningGame] : -1;
+        internal int MinimumBuildVersionofGame(QModGame qModGame) => IsValidGameRunning ? SupportedGameVersions[qModGame] : -1;
         internal bool IsValidGameVersion => IsValidGameRunning && (MinimumBuildVersion == 0 || (CurrentGameVersion > -1 && CurrentGameVersion >= MinimumBuildVersion));
 
         internal GameDetector()
@@ -63,13 +64,13 @@
             Logger.Info($"Game Version: {CurrentGameVersion} Build Date: {SNUtils.GetDateTimeOfBuild():dd-MMMM-yyyy} Store: {StoreDetector.GetUsedGameStore()}");
 
 #if SUBNAUTICA_STABLE
-            Logger.Info($"Loading QModManager v{Assembly.GetExecutingAssembly().GetName().Version.ToStringParsed()} built for Subnautica v{MinimumBuildVersion}...");
+            Logger.Info($"Loading QModManager v{Assembly.GetExecutingAssembly().GetName().Version.ToStringParsed()} built for Subnautica v{MinimumBuildVersionofGame(QModGame.Subnautica)}...");
 #elif SUBNAUTICA_EXP
-            Logger.Info($"Loading QModManager -Experimental- v{Assembly.GetExecutingAssembly().GetName().Version.ToStringParsed()} built for Subnautica v{MinimumBuildVersion}...");
+            Logger.Info($"Loading QModManager -Experimental- v{Assembly.GetExecutingAssembly().GetName().Version.ToStringParsed()} built for Subnautica v{MinimumBuildVersionofGame(QModGame.Subnautica)}...");
 #elif BELOWZERO_STABLE
-            Logger.Info($"Loading QModManager v{Assembly.GetExecutingAssembly().GetName().Version.ToStringParsed()} built for Below Zero v{MinimumBuildVersion}...");
+            Logger.Info($"Loading QModManager v{Assembly.GetExecutingAssembly().GetName().Version.ToStringParsed()} built for Below Zero v{MinimumBuildVersionofGame(QModGame.BelowZero)}...");
 #elif BELOWZERO_EXP
-            Logger.Info($"Loading QModManager -Experimental- v{Assembly.GetExecutingAssembly().GetName().Version.ToStringParsed()} built for Below Zero v{MinimumBuildVersion}...");
+            Logger.Info($"Loading QModManager -Experimental- v{Assembly.GetExecutingAssembly().GetName().Version.ToStringParsed()} built for Below Zero v{MinimumBuildVersionofGame(QModGame.BelowZero)}...");
 #endif
             Logger.Info($"Today is {DateTime.Now:dd-MMMM-yyyy_HH:mm:ss}");
 

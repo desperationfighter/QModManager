@@ -57,7 +57,7 @@
         bool PirateDetected { get; }
 
         /// <summary>
-        /// Gets a value indicating when a Savegame was already loaded (Turn true when entering the Mainmenu again.
+        /// Gets a value indicating when a Savegame was already loaded. (Turns <c>true</c> when entering the Mainmenu again.)
         /// </summary>
         /// <value>
         ///   <c>true</c> Mainmenu is entered AFTER a Savegame was loaded already; otherwise, <c>false</c>.

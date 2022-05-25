@@ -2,7 +2,7 @@
 {
     using HarmonyLib;
     using QModManager.API;
-    using MyLogger = QModManager.Utility;
+    using MyLogger = Utility;
     using UWE;
     using System.Collections;
     using UnityEngine;
@@ -20,8 +20,11 @@
         {
             if (ReturnfromSavegameWarning.AnySavegamewasloaded)
             {
-                MyLogger.Logger.Error("Entering a Savegame after playing a other one without restarting the Game. Modders do not recommen that. Restart the Game to prevent errors or unexpected behaviour");
-                CoroutineHost.StartCoroutine(ShowIngameMessage_async("Modders do not recommend loading multiple savegames without restarting the game."));
+                MyLogger.Logger.Error("Entering a Savegame after playing a other one without restarting the Game. Modders do not recommend that. Restart the Game to prevent errors or unexpected behaviour");
+                if (Utility.Config.ShowWarnOnLoadSecondSave)
+                {
+                    CoroutineHost.StartCoroutine(ShowIngameMessage_async("Modders do not recommend loading multiple savegames without restarting the game."));
+                }
             }
             else
             {
@@ -44,8 +47,11 @@
         {
             if (ReturnfromSavegameWarning.AnySavegamewasloaded)
             {
-                QModServices.Main.AddCriticalMessage("Note that Modders recommend to restart the Game before loading the next Savegame", 15, "orange");
-                MyLogger.Logger.Error("Entering Main Menu after playing a Savegame. Modders do not recommen to start or load a Savegame now. Restart the Game to prevent errors or unexpected behaviour");
+                MyLogger.Logger.Error("Entering Main Menu after playing a Savegame. Modders do not recommend to start or load a Savegame now. Restart the Game to prevent errors or unexpected behaviour");
+                if (Utility.Config.ShowWarnOnLoadSecondSave)
+                {
+                    //QModServices.Main.AddCriticalMessage("Note that Modders recommend to restart the Game before loading the next Savegame", 15, "orange");
+                }
             }
         }
     }

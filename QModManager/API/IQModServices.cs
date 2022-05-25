@@ -48,7 +48,6 @@
         /// </value>
         bool NitroxRunning { get; }
 
-
         /// <summary>
         /// Gets a value indicating whether Piracy was detected.
         /// </summary>
@@ -56,5 +55,13 @@
         ///   <c>true</c> if Piracy was detected; otherwise, <c>false</c>.
         /// </value>
         bool PirateDetected { get; }
+
+        /// <summary>
+        /// Gets a value indicating when a Savegame was already loaded (Turn true when entering the Mainmenu again.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> Mainmenu is entered AFTER a Savegame was loaded already; otherwise, <c>false</c>.
+        /// </value>
+        bool AnySavegamewasalreadyloaded { get; }
     }
 }

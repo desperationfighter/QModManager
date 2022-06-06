@@ -1,6 +1,6 @@
 ﻿namespace QModManager.Utility
 {
-#if SUBNAUTICA_STABLE
+#if SUBNAUTICA_STABLE || SUBNAUTICA_EXP
     using Oculus.Newtonsoft.Json;
 #else
     using Newtonsoft.Json;

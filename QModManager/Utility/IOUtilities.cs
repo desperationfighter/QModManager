@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using QModManager.Patching;
 
-#if SUBNAUTICA_STABLE || SUBNAUTICA_EXP
+#if SUBNAUTICA_STABLE
 using Oculus.Newtonsoft.Json;
 #else
 using Newtonsoft.Json;

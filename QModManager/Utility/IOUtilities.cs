@@ -4,7 +4,7 @@ using System.IO;
 using QModManager.Patching;
 
 #if SUBNAUTICA_STABLE
-    using Oculus.Newtonsoft.Json;
+using Oculus.Newtonsoft.Json;
 #else
 using Newtonsoft.Json;
 #endif
@@ -60,22 +60,32 @@ namespace QModManager.Utility
                 string[] files = Directory.GetFiles(directory);
                 for (int i = 1; i <= files.Length; i++)
                 {
-                    FileInfo fileinfo = new FileInfo(files[i - 1]);
-                    if (i != files.Length)
-                        Console.WriteLine($"{GenerateSpaces(0)}|---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
-                    else
-                        Console.WriteLine($"{GenerateSpaces(0)}|---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                    try
+                    {
+                        FileInfo fileinfo = new FileInfo(files[i - 1]);
+                        if (i != files.Length)
+                            Console.WriteLine($"{GenerateSpaces(0)}|---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                        else
+                            Console.WriteLine($"{GenerateSpaces(0)}`---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                    }
+                    catch (Exception e)
+                    {
+                        if (i != files.Length)
+                            Console.WriteLine($"{GenerateSpaces(0)}|---- ERROR ON GETTING FILE INFORMATIONS - {e.Message}");
+                        else
+                            Console.WriteLine($"{GenerateSpaces(0)}`---- ERROR ON GETTING FILE INFORMATIONS - {e.Message}");
+                    }
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
-        }
+}
         internal static void WriteFolderStructureRecursively(string directory, int spaces = 0)
         {
             try
-            {
+            { 
                 DirectoryInfo dirInfo = new DirectoryInfo(directory);
                 Console.WriteLine($"{GenerateSpaces(spaces)}|---+ {dirInfo.Name}");
 
@@ -93,11 +103,37 @@ namespace QModManager.Utility
                 string[] files = Directory.GetFiles(directory);
                 for (int i = 1; i <= files.Length; i++)
                 {
-                    FileInfo fileinfo = new FileInfo(files[i - 1]);
-                    if (i != files.Length)
-                        Console.WriteLine($"{GenerateSpaces(spaces + 4)}|---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
-                    else
-                        Console.WriteLine($"{GenerateSpaces(spaces + 4)}`---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                    try
+                    {
+                        FileInfo fileinfo = new FileInfo(files[i - 1]);
+                        if (fileinfo.Name == "mod.json")
+                        {
+                            var modjson = JsonConvert.DeserializeObject<QMod>(File.ReadAllText(fileinfo.FullName));
+                            if (i != files.Length)
+                            {
+
+                                Console.WriteLine($"{GenerateSpaces(spaces + 4)}|---- {fileinfo.Name} [{modjson.Id} v{modjson.Version} by {modjson.Author} for {modjson.Game}] ({ParseSize(fileinfo.Length)})");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{GenerateSpaces(spaces + 4)}`---- {fileinfo.Name} [{modjson.Id} v{modjson.Version} by {modjson.Author} for {modjson.Game}] ({ParseSize(fileinfo.Length)})");
+                            }
+                        }
+                        else
+                        {
+                            if (i != files.Length)
+                                Console.WriteLine($"{GenerateSpaces(spaces + 4)}|---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                            else
+                                Console.WriteLine($"{GenerateSpaces(spaces + 4)}`---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        if (i != files.Length)
+                            Console.WriteLine($"{GenerateSpaces(spaces + 4)}|---- ERROR ON GETTING FILE INFORMATIONS - {e.Message}");
+                        else
+                            Console.WriteLine($"{GenerateSpaces(spaces + 4)}`---- ERROR ON GETTING FILE INFORMATIONS - {e.Message}");
+                    }
                 }
             }
             catch (Exception e)

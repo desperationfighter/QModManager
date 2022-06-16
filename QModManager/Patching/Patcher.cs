@@ -125,14 +125,7 @@ namespace QModManager.Patching
                     return;
                 }*/
 
-                try
-                {
-                    VersionCheck.Check();
-                }
-                catch
-                {
-                    Logger.Error("Version Check failed with unhandeled exception");
-                }
+                VersionCheck.Check();
 
                 Logger.Info("Started loading mods");
 

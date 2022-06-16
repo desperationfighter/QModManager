@@ -81,11 +81,11 @@ namespace QModManager.Utility
             {
                 throw e;
             }
-        }
+}
         internal static void WriteFolderStructureRecursively(string directory, int spaces = 0)
         {
             try
-            {
+            { 
                 DirectoryInfo dirInfo = new DirectoryInfo(directory);
                 Console.WriteLine($"{GenerateSpaces(spaces)}|---+ {dirInfo.Name}");
 

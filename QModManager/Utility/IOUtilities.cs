@@ -60,11 +60,21 @@ namespace QModManager.Utility
                 string[] files = Directory.GetFiles(directory);
                 for (int i = 1; i <= files.Length; i++)
                 {
-                    FileInfo fileinfo = new FileInfo(files[i - 1]);
-                    if (i != files.Length)
-                        Console.WriteLine($"{GenerateSpaces(0)}|---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
-                    else
-                        Console.WriteLine($"{GenerateSpaces(0)}`---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                    try
+                    {
+                        FileInfo fileinfo = new FileInfo(files[i - 1]);
+                        if (i != files.Length)
+                            Console.WriteLine($"{GenerateSpaces(0)}|---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                        else
+                            Console.WriteLine($"{GenerateSpaces(0)}`---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                    }
+                    catch (Exception e)
+                    {
+                        if (i != files.Length)
+                            Console.WriteLine($"{GenerateSpaces(0)}|---- ERROR ON GETTING FILE INFORMATIONS - {e.Message}");
+                        else
+                            Console.WriteLine($"{GenerateSpaces(0)}`---- ERROR ON GETTING FILE INFORMATIONS - {e.Message}");
+                    }
                 }
             }
             catch (Exception e)
@@ -93,26 +103,36 @@ namespace QModManager.Utility
                 string[] files = Directory.GetFiles(directory);
                 for (int i = 1; i <= files.Length; i++)
                 {
-                    FileInfo fileinfo = new FileInfo(files[i - 1]);
-                    if (fileinfo.Name == "mod.json")
+                    try
                     {
-                        var modjson = JsonConvert.DeserializeObject<QMod>(File.ReadAllText(fileinfo.FullName));
-                        if (i != files.Length)
+                        FileInfo fileinfo = new FileInfo(files[i - 1]);
+                        if (fileinfo.Name == "mod.json")
                         {
-                            
-                            Console.WriteLine($"{GenerateSpaces(spaces + 4)}|---- {fileinfo.Name} [{modjson.Id} v{modjson.Version} by {modjson.Author} for {modjson.Game}] ({ParseSize(fileinfo.Length)})");
+                            var modjson = JsonConvert.DeserializeObject<QMod>(File.ReadAllText(fileinfo.FullName));
+                            if (i != files.Length)
+                            {
+
+                                Console.WriteLine($"{GenerateSpaces(spaces + 4)}|---- {fileinfo.Name} [{modjson.Id} v{modjson.Version} by {modjson.Author} for {modjson.Game}] ({ParseSize(fileinfo.Length)})");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{GenerateSpaces(spaces + 4)}`---- {fileinfo.Name} [{modjson.Id} v{modjson.Version} by {modjson.Author} for {modjson.Game}] ({ParseSize(fileinfo.Length)})");
+                            }
                         }
                         else
-                        { 
-                            Console.WriteLine($"{GenerateSpaces(spaces + 4)}`---- {fileinfo.Name} [{modjson.Id} v{modjson.Version} by {modjson.Author} for {modjson.Game}] ({ParseSize(fileinfo.Length)})"); 
+                        {
+                            if (i != files.Length)
+                                Console.WriteLine($"{GenerateSpaces(spaces + 4)}|---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                            else
+                                Console.WriteLine($"{GenerateSpaces(spaces + 4)}`---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
                         }
                     }
-                    else
+                    catch (Exception e)
                     {
                         if (i != files.Length)
-                            Console.WriteLine($"{GenerateSpaces(spaces + 4)}|---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                            Console.WriteLine($"{GenerateSpaces(spaces + 4)}|---- ERROR ON GETTING FILE INFORMATIONS - {e.Message}");
                         else
-                            Console.WriteLine($"{GenerateSpaces(spaces + 4)}`---- {fileinfo.Name} ({ParseSize(fileinfo.Length)})");
+                            Console.WriteLine($"{GenerateSpaces(spaces + 4)}`---- ERROR ON GETTING FILE INFORMATIONS - {e.Message}");
                     }
                 }
             }

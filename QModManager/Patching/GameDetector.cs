@@ -22,7 +22,7 @@
             { QModGame.Subnautica, 65786 }
 #else
             { QModGame.BelowZero, 45391 },
-            { QModGame.Subnautica, 68186 }
+            { QModGame.Subnautica, 69769 }
 #endif
         };
 
